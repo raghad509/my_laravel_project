@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('diet_and_habits', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->date('date');
+            $table->text('diet_description')->nullable();
+            $table->text('bad_habits')->nullable();
             $table->timestamps();
-            $table->BIGINTUNSIGNED('diet_id');
-            $table->BIGINTUNSIGNED('user_id');
-            $table->DATE('date');
-            $table->TEXT('diet_description')->nullable();
-            $table->TEXT('bad_habits')->nullable();
-            $table->timestamp('created_at')->default();
 
         });
     }
@@ -32,4 +30,3 @@ return new class extends Migration
         Schema::dropIfExists('diet_and_habits');
     }
 };
-    

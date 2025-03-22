@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('specialist_communications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('specialist_id');
+            $table->date('communication_date');
+            $table->text('meesage')->nullable();
             $table->timestamps();
-            $table->BIGINTUNSIGNED('communication_id');
-            $table->BIGINTUNSIGNED('user_id');
-            $table->BIGINTUNSIGNED('specialist_id');
-            $table->DATE('communication_date');
-            $table->TEXT('meesage')->nullable();
-            $table->timestamp('created_at')->default();
-            
+
         });
     }
 

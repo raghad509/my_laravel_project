@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('community_messages', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('sender_id');
+            $table->unsignedBigInteger('receiver_id');
+            $table->text('message');
+            $table->date('sent_at');
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
-            $table->BIGINTUNSIGNED('message_id');
-            $table->BIGINTUNSIGNED('sender_id');
-            $table->BIGINTUNSIGNED('receiver_id');
-            $table->TEXT('message');
-            $table->timestamp('sent_at')->default();
-            $table->BOOLEAN('is_read')->default(false);
         });
     }
 

@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('relaxation_exercises', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('title');
+            $table->text('description');
+            $table->integer('duration');
+            $table->date('date_assigned');
             $table->timestamps();
-            $table->BIGINTUNSIGNED('exercise_id');
-            $table->BIGINTUNSIGNED('user_id');
-            $table->VARCHAR(225)('title');
-            $table->TEXT('description');
-            $table->INT('duration');
-            $table->DATE('date_assigned');
-            $table->timestamp('created_at');
 
         });
     }

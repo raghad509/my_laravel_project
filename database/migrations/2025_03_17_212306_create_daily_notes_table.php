@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('daily_notes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->BIGINTUNSIGNED('note_id');
-            $table->BIGINTUNSIGNED('user_id');
+           
+            $table->unsignedBigInteger('user_id');
             $table->date ('date');
-            $table->VARCHAR(50)('feeling');
+            $table->string('feeling');
             $table->text('description');
-            $table->timestamp('created_at');
+             $table->timestamps();
         });
     }
 

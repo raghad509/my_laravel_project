@@ -13,25 +13,19 @@ return new class extends Migration
     {
         Schema::create('questionnaires', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->date('date');
+            $table->integer('anxiety_level');
+            $table->integer('stress_level');
+            $table->string('symptoms_frequency');
+            $table->string('symptoms_severity');
+            $table->text('physical_symptoms');
+            $table->text('psychological_symptoms');
+            $table->text('triggers');
+            $table->text('coping_strategy');
+            $table->text('daily_life_impact');
+            $table->text('support_needs');
             $table->timestamps();
-            $table->BIGINTUNSIGNED('questionnaire_id');
-            $table->BIGINTUNSIGNED('user_id');
-            $table->DATE('date');
-            $table->TINYINT('anxiety_level');
-            $table->TINYINT('stress_level');
-            $table->VARCHAR(50)('symptoms_frequency');
-            $table->VARCHAR(50)('symptoms_severity');
-            $table->TEXT('physical_symptoms');
-            $table->TEXT('psychological_symptoms');
-            $table->TEXT('triggers');
-            $table->TEXT('coping_strategy');
-            $table->TEXT('daily_life_impact');
-            $table->TEXT('support_needs');
-            $table->timestamp('created_at');
-
-
-
-
         });
     }
 

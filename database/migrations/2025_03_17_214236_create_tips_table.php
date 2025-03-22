@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('tips', function (Blueprint $table) {
             $table->id();
+            $table->text('content');
             $table->timestamps();
-            $table->BIGINTUNSIGNED('tip_id')->primary();
-            $table->text ('content');
-            $table->timestamp('created_at');
         });
     }
 

@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->BIGINTUNSIGNED('notification_id');
-            $table->BIGINTUNSIGNED('user_id');
-            $table->TEXT('content');
-            $table->timestamp('sent_at')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->text('content');
+            $table->date('sent_at')->nullable();
             $table->boolean('is_read')->default(false);
-            $table->timestamp('created_at');
-            
+            $table->timestamps();
+
         });
     }
 

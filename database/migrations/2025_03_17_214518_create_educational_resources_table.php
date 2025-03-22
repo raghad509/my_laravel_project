@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('educational_resources', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('tip_id');
+            $table->string('title');
+            $table->text('description');
+            $table->string('link');
             $table->timestamps();
-            $table->BIGINTUNSIGNED('resource_id');
-            $table->BIGINTUNSIGNED('tip_id');
-            $table->VARCHAR(225)('title');
-            $table->TEXT ('description');
-            $table->VARCHAR(225)('link');
-            $table->timestamps('created_at');
         });
     }
 

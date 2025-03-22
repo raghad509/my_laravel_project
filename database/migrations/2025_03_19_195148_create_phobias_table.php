@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('phobias', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('phobia_name');
+            $table->text('description');
+            $table->integer('progress');
             $table->timestamps();
-            $table->BIGINTUNSIGNED('phobia_id');
-            $table->BIGINTUNSIGNED('user_id');
-            $table->VARCHAR(100)('phobia_name');
-            $table->TEXT('description');
-            $table->TINYINT('progress');
-            $table->timestamp('created_at');
-            
+
 
         });
     }

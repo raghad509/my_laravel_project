@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class diet_and_habits extends Model
+class DailyNote extends Model
 {
     use HasFactory;
+
     protected $guarded=[];
     public function user(){
         return $this->belongsTo(User::class);
     }
+
 }
