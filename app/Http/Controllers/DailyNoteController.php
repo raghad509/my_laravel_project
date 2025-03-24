@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DailyNote; // Add missing model import
 use Illuminate\Http\Request;
 
 class DailyNoteController extends Controller
@@ -11,18 +12,9 @@ class DailyNoteController extends Controller
      */
     public function index()
     {
-        $daily_notes=DailyNote::latest()->get();
-      $data=['daily_notes'=>$daily_notes
-    ];
-    return response()->json($data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $daily_notes = DailyNote::latest()->get();
+        $data = ['daily_notes' => $daily_notes];
+        return response()->json($data);
     }
 
     /**
@@ -30,14 +22,15 @@ class DailyNoteController extends Controller
      */
     public function store(Request $request)
     {
-        $json=$request->json()->all();
-        User::create([
-            'user_id'=>$json['user_id'],
-           'date'=>$json['date'],
-           'feeling'=>$json['feeling'],
-           'description'=>$json['description'],
+        $validated = $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'date' => 'required|date',
+            'feeling' => 'required|string',
+            'description' => 'required|string'
         ]);
-        return response()->json('added');
+
+        $daily_note = DailyNote::create($validated); // Use correct model name
+        return response()->json(['message' => 'added', 'data' => $daily_note], 201);
     }
 
     /**
@@ -45,13 +38,11 @@ class DailyNoteController extends Controller
      */
     public function show(string $id)
     {
-        $daily_note=DailyNote::find($id);
-       if($daily_note){
-        return response()->json($daily_note);
-       }
-       else{
-        return response()->json(404);
-       }
+        $daily_note = DailyNote::find($id);
+        if ($daily_note) {
+            return response()->json($daily_note);
+        }
+        return response()->json(['message' => 'Note not found'], 404);
     }
 
     /**
@@ -59,13 +50,11 @@ class DailyNoteController extends Controller
      */
     public function edit(string $id)
     {
-        $daily_note=DailyNote::find($id);
-        if($daily_note){
+        $daily_note = DailyNote::find($id);
+        if ($daily_note) {
             return response()->json($daily_note);
-           }
-           else{
-            return response()->json(404);
-           }
+        }
+        return response()->json(['message' => 'Note not found'], 404);
     }
 
     /**
@@ -73,14 +62,19 @@ class DailyNoteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $daily_note=DailyNote::find($id);
-        $json=$request->json()->all();
-        $DailyNote->update([
-            'user_id'=>$json['user_id'],
-           'date'=>$json['date'],
-           'feeling'=>$json['feeling'],
-           'description'=>$json['description'],
+        $daily_note = DailyNote::find($id);
+        if (!$daily_note) {
+            return response()->json(['message' => 'Note not found'], 404);
+        }
+
+        $validated = $request->validate([
+            'user_id' => 'sometimes|integer|exists:users,id',
+            'date' => 'sometimes|date',
+            'feeling' => 'sometimes|string',
+            'description' => 'sometimes|string'
         ]);
+
+        $daily_note->update($validated);
         return response()->json($daily_note);
     }
 
@@ -89,8 +83,12 @@ class DailyNoteController extends Controller
      */
     public function destroy(string $id)
     {
-        $daily_note=DailyNote::find($id);
+        $daily_note = DailyNote::find($id);
+        if (!$daily_note) {
+            return response()->json(['message' => 'Note not found'], 404);
+        }
+
         $daily_note->delete();
-        return response()->json('deleted');
+        return response()->json(['message' => 'deleted']);
     }
 }
