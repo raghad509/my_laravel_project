@@ -35,6 +35,8 @@ Route::prefix('dashboard')
     ->middleware(['auth', 'role:superadministrator|blogger|admin'])
     ->group(
         function () {
-            Route::resource('users', UserController::class);
+          //  Route::resource('users', UserController::class);
         });
 require __DIR__ . '/auth.php';
+Route::resource('users','App\Http\Controllers\UserController');
+Route::resource('daily_notes','App\Http\Controllers\DailyNoteController');

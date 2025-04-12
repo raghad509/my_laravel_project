@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tip;
+use App\Models\Phobia;
 use Illuminate\Http\Request;
 
-class TipController extends Controller
+class PhobiaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $tips = Tip::latest()->get();
-        $data = ['tips' => $tips];
+        $phobias = Phobia::latest()->get();
+        $data = ['phobias' => $phobias];
         return response()->json($data);
     }
 
@@ -30,11 +30,15 @@ class TipController extends Controller
      */
     public function store(Request $request)
     {
-        $validated=$request->validate([
-            'content'=>'required|string'
+        $validated = $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'phobia_name' => 'required|string',
+            'description' => 'required|string',
+            'progress' => 'required|integer'
         ]);
-        $tip = Tip::create($validated); // Use correct model name
-        return response()->json(['message' => 'added', 'data' => $tip], 201);
+
+        $phobia = Phobia::create($validated); // Use correct model name
+        return response()->json(['message' => 'added', 'data' => $phobia], 201);
     }
 
     /**
@@ -42,9 +46,9 @@ class TipController extends Controller
      */
     public function show(string $id)
     {
-        $tip= Tip::find($id);
-        if ($tip) {
-            return response()->json($tip);
+        $phobia = Phobia::find($id);
+        if ($phobia) {
+            return response()->json($phobia);
         }
         return response()->json(['message' => 'Note not found'], 404);
     }
@@ -54,9 +58,9 @@ class TipController extends Controller
      */
     public function edit(string $id)
     {
-        $tip = Tip::find($id);
-        if ($tip) {
-            return response()->json($tip);
+        $phobia = Phobia::find($id);
+        if ($phobia) {
+            return response()->json($phobia);
         }
         return response()->json(['message' => 'Note not found'], 404);
     }
@@ -66,17 +70,20 @@ class TipController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $tip = Tip::find($id);
-        if (!$tip) {
+        $phobia = Phobia::find($id);
+        if (!$phobia) {
             return response()->json(['message' => 'Note not found'], 404);
         }
 
         $validated = $request->validate([
-            'content'=>'sometimes|string'
+            'user_id' => 'sometimes|integer|exists:users,id',
+            'phobia_name' => 'sometimes|string',
+            'description' => 'sometimes|string',
+            'progress' => 'sometimes|integer'
         ]);
 
-        $tip->update($validated);
-        return response()->json($tip);
+        $phobia->update($validated);
+        return response()->json($phobia);
     }
 
     /**
@@ -84,13 +91,13 @@ class TipController extends Controller
      */
     public function destroy(string $id)
     {
-        $tip = Tip::find($id);
-        if (!$tip) {
+
+        $phobia = Phobia::find($id);
+        if (!$phobia) {
             return response()->json(['message' => 'Note not found'], 404);
         }
 
-        $tip->delete();
+        $phobia->delete();
         return response()->json(['message' => 'deleted']);
     }
-
 }

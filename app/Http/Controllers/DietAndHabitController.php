@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tip;
+use App\Models\DientAndHabit;
 use Illuminate\Http\Request;
 
-class TipController extends Controller
+class DietAndHabitController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $tips = Tip::latest()->get();
-        $data = ['tips' => $tips];
+        $diet_and_habit = DientAndHabit::latest()->get();
+        $data = ['diet_and_habits' => $diet_and_habit];
         return response()->json($data);
     }
 
@@ -30,11 +30,15 @@ class TipController extends Controller
      */
     public function store(Request $request)
     {
-        $validated=$request->validate([
-            'content'=>'required|string'
+        $validated = $request->validate([
+            'user_id' => 'required|integer|exists:users,id',
+            'date' => 'required|date',
+            'diet_description' => 'required|string',
+            'bad_habits' => 'required|string'
         ]);
-        $tip = Tip::create($validated); // Use correct model name
-        return response()->json(['message' => 'added', 'data' => $tip], 201);
+
+        $diet_and_habit = DientAndHabit::create($validated); // Use correct model name
+        return response()->json(['message' => 'added', 'data' => $diet_and_habit], 201);
     }
 
     /**
@@ -42,9 +46,9 @@ class TipController extends Controller
      */
     public function show(string $id)
     {
-        $tip= Tip::find($id);
-        if ($tip) {
-            return response()->json($tip);
+        $diet_and_habit = DientAndHabit::find($id);
+        if ($diet_and_habit) {
+            return response()->json($diet_and_habit);
         }
         return response()->json(['message' => 'Note not found'], 404);
     }
@@ -54,9 +58,9 @@ class TipController extends Controller
      */
     public function edit(string $id)
     {
-        $tip = Tip::find($id);
-        if ($tip) {
-            return response()->json($tip);
+        $diet_and_habit = DientAndHabit::find($id);
+        if ($diet_and_habit) {
+            return response()->json($diet_and_habit);
         }
         return response()->json(['message' => 'Note not found'], 404);
     }
@@ -66,17 +70,20 @@ class TipController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $tip = Tip::find($id);
-        if (!$tip) {
+        $diet_and_habit= DientAndHabit::find($id);
+        if (!$diet_and_habit) {
             return response()->json(['message' => 'Note not found'], 404);
         }
 
         $validated = $request->validate([
-            'content'=>'sometimes|string'
+            'user_id' => 'sometimes|integer|exists:users,id',
+            'date' => 'sometimes|date',
+            'diet_description' => 'sometimes|string',
+            'bad_habits' => 'sometimes|string'
         ]);
 
-        $tip->update($validated);
-        return response()->json($tip);
+        $diet_and_habit->update($validated);
+        return response()->json($diet_and_habit);
     }
 
     /**
@@ -84,13 +91,12 @@ class TipController extends Controller
      */
     public function destroy(string $id)
     {
-        $tip = Tip::find($id);
-        if (!$tip) {
+        $diet_and_habit = DientAndHabit::find($id);
+        if (!$diet_and_habit) {
             return response()->json(['message' => 'Note not found'], 404);
         }
 
-        $tip->delete();
+        $diet_and_habit->delete();
         return response()->json(['message' => 'deleted']);
     }
-
 }

@@ -11,7 +11,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+      $users=User::latest()->get();
+      $data=['users'=>$users
+    ];
+    return response()->json($data);  //
     }
 
     /**
@@ -27,7 +30,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated=$request->validate
+       ([
+            'name' =>'required|string',
+           'email'=>'required|string',
+           'email_verified_at'=>'required|timestamp',
+           'password'=>'required|string',
+          'active'=>'required|boolean'
+        ]);
+        $user=User::create($validated);
+        return response()->json(['message'=> 'added','data'=>$user],201);
     }
 
     /**
@@ -35,7 +47,13 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+       $user=User::find($id);
+       if($user){
+        return response()->json($user);
+       }
+
+        return response()->json(['message' => 'Note not found'],404);
+
     }
 
     /**
@@ -43,7 +61,13 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user=User::find($id);
+        if($user){
+            return response()->json($user);
+           }
+
+            return response()->json(['message' => 'Note not found'],404);
+
     }
 
     /**
@@ -51,7 +75,19 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user=User::find($id);
+        if(!$user){
+            return response()->json(['message' => 'Note not found'],404);
+        }
+        $validated=$request->validate([
+            'name' =>'sometimes|string',
+           'email'=>'sometimes|string',
+           'email_verified_at'=>'sometimes|timestamp',
+           'password'=>'sometimes|string',
+          'active'=>'sometimes|boolean'
+        ]);
+        $user->update($validated);
+        return response()->json($user);
     }
 
     /**
@@ -59,6 +95,11 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user=User::find($id);
+        if(!$user){
+            return response()->json(['message' => 'Note not found'],404);
+        }
+        $user->delete();
+        return response()->json(['message' => 'deleted']);
     }
 }

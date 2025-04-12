@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Questionnaire;
 use Illuminate\Http\Request;
 
 class QuestionnaireController extends Controller
@@ -36,17 +37,17 @@ class QuestionnaireController extends Controller
             'stress_level'=>'required|integer',
             'symptoms_frequency'=>'required|string',
             'symptoms_severity'=>'required|string',
-            'physical_symptoms'=>'required|text',
-            'psychological_symptoms'=>'required|text',
-            'triggers'=>'required|text',
-            'copying_strategy'=>'required|text',
-            'daily_life_impact'=>'required|text',
-            'support_needs'=>'required|text',
+            'physical_symptoms'=>'required|string',
+            'psychological_symptoms'=>'required|string',
+            'triggers'=>'required|string',
+            'copying_strategy'=>'required|string',
+            'daily_life_impact'=>'required|string',
+            'support_needs'=>'required|string',
 
         ]);
         $questionnaire = Questionnaire::create($validated); // Use correct model name
         return response()->json(['message' => 'added', 'data' => $questionnaire], 201);
-    
+
     }
 
     /**
@@ -90,12 +91,12 @@ class QuestionnaireController extends Controller
             'stress_level'=>'sometimes|integer',
             'symptoms_frequency'=>'sometimes|string',
             'symptoms_severity'=>'sometimes|string',
-            'physical_symptoms'=>'sometimes|text',
-            'psychological_symptoms'=>'sometimes|text',
-            'triggers'=>'sometimes|text',
-            'copying_strategy'=>'sometimes|text',
-            'daily_life_impact'=>'sometimes|text',
-            'support_needs'=>'sometimes|text',
+            'physical_symptoms'=>'sometimes|string',
+            'psychological_symptoms'=>'sometimes|string',
+            'triggers'=>'sometimes|string',
+            'copying_strategy'=>'sometimes|string',
+            'daily_life_impact'=>'sometimes|string',
+            'support_needs'=>'sometimes|string',
         ]);
 
         $questionnaire->update($validated);
